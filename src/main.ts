@@ -32,7 +32,6 @@ export async function run(): Promise<void> {
     core.warning('Set coverage-file to the path of your LCOV or Cobertura XML report.');
     return;
   }
-  // Each part warns on its own failure and the job still passes (D9).
   if (patterns.length > 0) {
     try {
       await sendCoverageReports(patterns, workspace);
@@ -70,7 +69,6 @@ async function runScan(workspace: string): Promise<void> {
   }
 }
 
-/** Only counts go to the log: file names come from the repo, and the job summary is where they are shown. */
 async function runTool<R>(
   name: ToolName,
   arch: Arch,
@@ -91,7 +89,6 @@ async function runTool<R>(
   }
 }
 
-/** D16: the job summary has the results, so a repo that is not on VibeDoctor, or a job without id-token, gets a log line, never a warning. */
 async function sendScanResults(payload: ScanPayload): Promise<void> {
   let token: string;
   try {
@@ -104,7 +101,7 @@ async function sendScanResults(payload: ScanPayload): Promise<void> {
   core.info(result.message);
 }
 
-/** The server refuses a token it has seen, so each try after the first asks GitHub for a new one. */
+/** The server refuses a reused token, so each retry asks GitHub for a new one. */
 function tokenSource(first: string): () => Promise<string> {
   let unused: string | null = first;
   return async () => {

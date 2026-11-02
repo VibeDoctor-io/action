@@ -4,11 +4,11 @@ import { sortSecrets, sortVulnerabilities, type ToolOutcome } from './summary.js
 import { TOOLS, type ToolName } from './tools.js';
 import type { ScanPayload } from './upload.js';
 
-/** The server refuses more (vibedoctor-engine/src/routes/ci-scan-route.ts); the rest is counted in `total`. */
+/** The server's limit; `total` still counts the rest. */
 export const MAX_SENT_FINDINGS = 1000;
 const MAX_CHECKED_FILES = 500;
 
-// The server refuses a NUL, which Postgres text cannot hold.
+// The server refuses NUL characters.
 const cut = (value: string, max: number) => value.replace(/\0/g, '').slice(0, max);
 
 function tool<R>(name: ToolName, outcome: ToolOutcome<R>) {

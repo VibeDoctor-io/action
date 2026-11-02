@@ -20,7 +20,7 @@ export interface ToolRelease {
   assets: Record<Arch, Asset>;
 }
 
-/** The versions our server runs (vibedoctor-engine/Dockerfile); hashes from each release's own checksums file. */
+/** The versions VibeDoctor's server runs; SHA-256 from each release's checksums file. */
 export const TOOLS: Record<ToolName, ToolRelease> = {
   gitleaks: {
     version: '8.30.1',
@@ -42,7 +42,6 @@ export const TOOLS: Record<ToolName, ToolRelease> = {
 
 const DOWNLOAD_TIMEOUT_MS = 120_000;
 
-/** Our pinned downloads are Linux builds. */
 export function runnerArch(platform: string = process.platform, arch: string = process.arch): Arch | null {
   if (platform !== 'linux') return null;
   return arch === 'x64' || arch === 'arm64' ? arch : null;
@@ -54,7 +53,7 @@ export function installTool(name: ToolName, arch: Arch, dir: string, fetchImpl: 
   return installRelease(name, TOOLS[name], arch, dir, fetchImpl);
 }
 
-/** Downloads the release, refuses it unless its SHA-256 matches, and unpacks only the tool's binary into `dir`. */
+/** Refuses a download whose SHA-256 differs, and unpacks only the tool's binary. */
 export async function installRelease(name: ToolName, release: ToolRelease, arch: Arch, dir: string, fetchImpl: typeof fetch = fetch): Promise<string> {
   const { version, base, assets } = release;
   const asset = assets[arch];

@@ -25,7 +25,6 @@ interface ScanToolPayload {
   version: string;
   status: 'completed' | 'failed';
   error?: string;
-  /** All the tool found; `findings` holds at most MAX_SENT_FINDINGS of them. */
   total?: number;
 }
 
@@ -57,13 +56,12 @@ const RETRY_DELAY_MS = 2000;
 const TIMEOUT_MS = 30000;
 const MAX_MESSAGE_LENGTH = 300;
 
-/** A bare host gets the route; an address with a path (a relay such as smee.io) is used as given. */
+/** A bare host gets the route; an address with a path is used as given. */
 function uploadUrl(apiUrl: string, route: string): URL {
   const base = new URL(apiUrl);
   return base.pathname === '/' ? new URL(route, base) : base;
 }
 
-/** `nextToken` is called before each try: the server refuses a token it has seen, so a retry needs a new one. */
 export function sendCoverage(
   apiUrl: string, nextToken: () => Promise<string>, payload: CoveragePayload, fetchImpl: typeof fetch = fetch, retryDelayMs = RETRY_DELAY_MS,
 ): Promise<UploadResult> {

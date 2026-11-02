@@ -7,7 +7,7 @@ export const MAX_SUMMARY_ROWS = 50;
 export const MAX_LISTED_FILES = 5;
 const SEVERITIES = ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW', 'UNKNOWN'];
 
-/** Values come from the scanned repo, so nothing in them may close a table cell, open HTML or turn into markdown (`__init__.py` would show a bold "init"). */
+/** Repo values must not close a cell, open HTML or render as markdown (`__init__.py` would show a bold "init"). */
 export function cell(value: string | number | null): string {
   if (value === null || value === '') return ' ';
   return String(value)
