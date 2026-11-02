@@ -1,0 +1,21 @@
+name: VibeDoctor
+description: Send test coverage from your CI to VibeDoctor, and scan for leaked secrets and vulnerable dependencies.
+author: VibeDoctor
+branding:
+  icon: activity
+  color: red
+inputs:
+  coverage-file:
+    description: Path or glob of your LCOV or Cobertura XML coverage report. One per line, or comma separated.
+    required: false
+  scan:
+    description: 'true runs Gitleaks and Trivy on the checked-out repository and lists what they find in the job summary. With id-token: write, it also sends the results to VibeDoctor, which keeps them for VibeDoctor projects. Linux runners only.'
+    required: false
+    default: 'false'
+  api-url:
+    description: VibeDoctor API address. Leave unset. An address with a path, such as a relay, is posted to as given.
+    required: false
+    default: https://vibedoctor.io
+runs:
+  using: node24
+  main: dist/index.js
