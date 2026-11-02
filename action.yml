@@ -1,4 +1,4 @@
-name: VibeDoctor
+name: VibeDoctor Coverage and Scan
 description: Send test coverage from your CI to VibeDoctor, and scan for leaked secrets and vulnerable dependencies.
 author: VibeDoctor
 branding:
