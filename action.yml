@@ -9,7 +9,7 @@ inputs:
     description: Path or glob of your LCOV or Cobertura XML coverage report. One per line, or comma separated.
     required: false
   scan:
-    description: 'true runs Gitleaks and Trivy on the checked-out repository and lists what they find in the job summary. With id-token: write, it also sends the results to VibeDoctor, which keeps them for VibeDoctor projects. Linux runners only.'
+    description: 'true checks the checked-out repository for leaked secrets and vulnerable dependencies and lists what it finds in the job summary. With id-token: write, it also sends the results to VibeDoctor, which keeps them for VibeDoctor projects. Linux runners only.'
     required: false
     default: 'false'
   api-url:
